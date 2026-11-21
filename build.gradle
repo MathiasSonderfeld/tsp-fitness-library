@@ -1,0 +1,27 @@
+plugins {
+    id 'java-library'
+}
+
+group = 'com.hsh'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+tasks.named('compileJava', JavaCompile) {
+    options.release = 25
+}
+
+// Das Jar enthält zusätzlich die Quelldateien (.java) neben den Klassen
+tasks.named('jar', Jar) {
+    archiveClassifier = 'jdk25'
+    from(sourceSets.main.allSource)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

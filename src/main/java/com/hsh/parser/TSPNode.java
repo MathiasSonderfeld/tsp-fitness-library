@@ -13,17 +13,20 @@ public class TSPNode extends Node {
 
     @Override
     public int distance(Node n1) {
-        // euclidean Distance !
-        if(!this.cost.containsKey(n1.getId())) {
-            double xd = 0;
-            double yd = 0;
-            xd = x - ((TSPNode) n1).getX();
-            yd = y - ((TSPNode) n1).getY();
-            int result = (int) (Math.sqrt(xd * xd + yd * yd) + 0.5);
-            this.setCost(result, n1.getId());
-            return result;
+        int id = n1.getId();
+        if(this.cost != null && id >= 0 && id < this.cost.length){
+            return this.cost[id]; // vorberechnet (siehe Dataset.build)
         }
-        return this.cost.get(n1.getId());
+        return this.computeDistance((TSPNode) n1); // z.B. Knoten, der nicht zu einem Dataset gehört
+    }
+
+    /**
+     * euclidean Distance, gerundet
+     */
+    int computeDistance(TSPNode other){
+        double xd = x - other.x;
+        double yd = y - other.y;
+        return (int) (Math.sqrt(xd * xd + yd * yd) + 0.5);
     }
 
     public double getX() {

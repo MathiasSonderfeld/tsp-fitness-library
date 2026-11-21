@@ -1,24 +1,22 @@
 package com.hsh.parser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class Node {
-    private int id;
-    protected ConcurrentHashMap<Integer, Integer> cost;
+    private final int id;
+    /** cost[id] = Kosten zum Knoten mit dieser ID. Wird einmal beim Einlesen gesetzt und ist danach nur noch lesend. */
+    protected int[] cost;
     protected ArrayList<Integer> constraints;
 
     public Node(int id) {
         this.id = id;
-        this.cost = new ConcurrentHashMap<>();
         this.constraints = new ArrayList<>();
     }
 
     public abstract int distance(Node n1);
 
-    protected void setCost(int cost, int id){
-        this.cost.put(id, cost);
+    protected void setCosts(int[] cost){
+        this.cost = cost;
     }
 
     public int getId() {
